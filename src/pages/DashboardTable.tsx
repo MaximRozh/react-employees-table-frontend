@@ -9,6 +9,7 @@ import {
   TableToolbar,
 } from "../components/DashboardTable";
 import { UserTableFormModal } from "../components/modals";
+import TableSkeleton from "../components/DashboardTable/TableSkeleton";
 import useDebounce from "../hooks/useDebaunce";
 import { EmployeeService } from "../services/EmployeeService";
 
@@ -33,18 +34,19 @@ const DashboardTable = () => {
   const { setConfirmDialogData, renderConfirmDialog, closeConfirmDialog } =
     useConfirmDialog();
 
-  const { data } = EmployeeService.useGetEmployeesQuery({
+  const { data, isLoading } = EmployeeService.useGetEmployeesQuery({
     page,
     perPage: rowsPerPage,
     search: debouncedValue,
     order,
     sortBy: orderBy,
   });
+  const employees = data?.employees || [];
+  const total = data?.total || 0;
+
   const [deleteEmployee] = EmployeeService.useDeleteEmployeeMutation();
   const [addEmployee] = EmployeeService.useAddEmployeeMutation();
   const [updateEmployee] = EmployeeService.useUpdateEmployeeMutation();
-  const employees = data?.employees || [];
-  const total = data?.total || 0;
 
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value;
@@ -73,6 +75,7 @@ const DashboardTable = () => {
   const editClose = () => {
     setEditMode(defaultEdit);
   };
+
   return (
     <Paper sx={{ width: "100%" }}>
       <TableToolbar
@@ -96,6 +99,7 @@ const DashboardTable = () => {
             handleEdit={handleEdit}
             handleDelete={handleDelete}
           />
+          <TableSkeleton isLoading={isLoading} />
         </Table>
       </TableContainer>
       <TablePagination

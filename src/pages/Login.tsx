@@ -13,6 +13,7 @@ const Login = () => {
 
   const onSubmit = async (values: LoginUserType) => {
     const userInfo = (await login(values)) as any;
+    console.log(userInfo);
     if ("token" in userInfo.data) {
       dispatch(setUserInfo(userInfo.data));
       window.localStorage.setItem("token", userInfo.data.token);

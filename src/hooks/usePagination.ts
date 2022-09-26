@@ -2,7 +2,7 @@ import React from "react";
 
 const usePagination = () => {
   const [page, setPage] = React.useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
