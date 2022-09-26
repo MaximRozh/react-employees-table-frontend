@@ -9,7 +9,7 @@ import { TableColumn } from "../../types/TableColumn";
 
 interface DashboardTableHeaderProps {
   columns: TableColumn[];
-  createSortHandler: any;
+  createSortHandler: (id: string) => void;
   orderBy: string;
   order: "asc" | "desc";
 }

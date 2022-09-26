@@ -1,7 +1,7 @@
 import React from "react";
 import { FormWrapper } from "../components/UI/FormWrapper";
 import { SingUpForm } from "../forms";
-import { UserModel } from "../models/UserModel";
+import { UserModel, UserSingResponseModel } from "../models/UserModel";
 import { UserService } from "../services/UserService";
 
 const Registration = () => {
@@ -12,9 +12,11 @@ const Registration = () => {
       ...values,
       fullName: `${values.firstName} ${values.lastName}`,
     };
-    const userInfo = (await registration(userData)) as any;
-    if ("token" in userInfo.data) {
-      window.localStorage.setItem("token", userInfo.data.token);
+    const { data: userInfo } = (await registration(userData)) as {
+      data: UserSingResponseModel;
+    };
+    if ("token" in userInfo) {
+      window.localStorage.setItem("token", userInfo.token);
     }
   };
 

@@ -44,7 +44,7 @@ const UserTableFormModal: React.FC<UserModalProps> = ({
   });
   const onSubmit = (
     data: EmployeeModel,
-    e: React.BaseSyntheticEvent<object, any, any> | undefined
+    e: React.BaseSyntheticEvent<object> | undefined
   ) => {
     e?.preventDefault();
     const userData = {

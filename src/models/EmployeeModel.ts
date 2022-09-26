@@ -4,6 +4,6 @@ export interface EmployeeModel {
   birthYear: string;
   position: string;
   salary: number | null;
-  _id?: string | number;
+  _id: string;
   fullName?: string;
 }

@@ -3,9 +3,9 @@ import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface InputFieldProps {
-  name?: any;
-  type?: any;
-  handleShowPassword?: any;
+  name?: string;
+  type?: string;
+  handleShowPassword?: () => void;
   [key: string]: any;
 }
 

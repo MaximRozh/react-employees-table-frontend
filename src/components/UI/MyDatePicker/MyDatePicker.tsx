@@ -7,10 +7,8 @@ import { TextFieldProps } from "@mui/material/TextField";
 interface MyDatePickerProps {
   value: Date | string;
   inputFormat: string;
-  renderInput: (
-    params: TextFieldProps
-  ) => React.ReactElement<any, string | React.JSXElementConstructor<any>>;
-  onChange: (eveny: any) => void;
+  renderInput: (params: TextFieldProps) => React.ReactElement;
+  onChange: (value: any) => void;
   views?: Array<"day" | "month" | "year">;
   label?: string;
   disableFuture?: boolean;

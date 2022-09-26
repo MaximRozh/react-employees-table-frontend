@@ -2,18 +2,10 @@ import React from "react";
 import { NavBar } from "./components/common";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { DashboardTable, Login, Registration } from "./pages";
-import { useAppDispatch, useAppSelector } from "./hooks/storeHooks";
+import AuthRoute from "./components/AuthRoute";
+import { useAppDispatch } from "./hooks/storeHooks";
 import { clearUserData } from "./store/auth/authSlilce";
 import { isValidToken } from "./utils/isValidToken";
-
-const AuthRoute: React.FC<any> = ({ children }) => {
-  const { isAuth } = useAppSelector((state) => state.auth);
-  if (isAuth) {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
-};
 
 function App() {
   const dispatch = useAppDispatch();
@@ -26,6 +18,7 @@ function App() {
       window.localStorage.removeItem("token");
     }
   }, [dispatch]);
+
   return (
     <div className="App">
       <NavBar />

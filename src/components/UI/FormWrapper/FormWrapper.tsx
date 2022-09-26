@@ -1,10 +1,10 @@
-import { Typography } from "@mui/material";
 import React from "react";
+import { Typography } from "@mui/material";
 
 import { StyledPaper } from "./style";
 
 interface FormWrapperProps {
-  children: any;
+  children: React.ReactNode;
   title?: string;
 }
 

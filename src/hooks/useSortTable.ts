@@ -4,7 +4,7 @@ type Order = "asc" | "desc";
 
 const useSortTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<any>("");
+  const [orderBy, setOrderBy] = React.useState<string>("");
 
   const handleRequestSort = React.useCallback(
     (property: string) => {

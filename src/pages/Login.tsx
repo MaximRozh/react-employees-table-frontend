@@ -3,7 +3,7 @@ import { FormWrapper } from "../components/UI/FormWrapper";
 
 import { useAppDispatch } from "../hooks/storeHooks";
 import SignInForm from "../forms/SignInForm";
-import { LoginUserType } from "../models/UserModel";
+import { LoginUserType, UserSingResponseModel } from "../models/UserModel";
 import { UserService } from "../services/UserService";
 import { setUserInfo } from "../store/auth/authSlilce";
 
@@ -12,11 +12,13 @@ const Login = () => {
   const [login] = UserService.useLoginMutation();
 
   const onSubmit = async (values: LoginUserType) => {
-    const userInfo = (await login(values)) as any;
-    console.log(userInfo);
-    if ("token" in userInfo.data) {
-      dispatch(setUserInfo(userInfo.data));
-      window.localStorage.setItem("token", userInfo.data.token);
+    const { data: userInfo } = (await login(values)) as {
+      data: UserSingResponseModel;
+    };
+
+    if ("token" in userInfo) {
+      dispatch(setUserInfo(userInfo));
+      window.localStorage.setItem("token", userInfo.token);
     }
   };
 

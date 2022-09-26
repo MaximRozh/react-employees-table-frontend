@@ -4,6 +4,11 @@ import { useForm } from "react-hook-form";
 import { InputField, MyButton } from "../../components/UI";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "./validationSchema";
+import { UserModel } from "../../models/UserModel";
+
+interface SingUpFormProps {
+  onSubmit: (values: UserModel) => void;
+}
 
 const defaultValues = {
   firstName: "",
@@ -12,7 +17,7 @@ const defaultValues = {
   email: "",
 };
 
-const SingUpForm: React.FC<any> = ({ onSubmit }) => {
+const SingUpForm: React.FC<SingUpFormProps> = ({ onSubmit }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleShowPassword = () => setShowPassword((prev) => !prev);
 
