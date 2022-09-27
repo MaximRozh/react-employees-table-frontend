@@ -1,19 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { EmployeeModel } from "../models/EmployeeModel";
+import { EmployeeModel, ListResponse } from "../models/EmployeeModel";
 import { cleanEmptyParams, EmployeesRequestParams } from "../utils/mapParams";
-
-type ListResponse = {
-  seccess?: boolean;
-  deletedId?: string;
-  total: number;
-  employee: EmployeeModel;
-};
-interface ListResponseAllEmployees {
-  currentPage?: number;
-  numberOfPages?: number;
-  total: number;
-  employees?: EmployeeModel[];
-}
 
 export const EmployeeService = createApi({
   reducerPath: "EmplolyeeAPI",
@@ -29,23 +16,21 @@ export const EmployeeService = createApi({
   }),
   tagTypes: ["Emplolyees"],
   endpoints: (build) => ({
-    getEmployees: build.query<ListResponseAllEmployees, EmployeesRequestParams>(
-      {
-        query: (queryParams) => ({
-          url: `/employees`,
-          params: cleanEmptyParams(queryParams),
-        }),
-        providesTags: (result) => ["Emplolyees"],
-      }
-    ),
-    deleteEmployee: build.mutation<ListResponse, string>({
+    getEmployees: build.query<ListResponse, EmployeesRequestParams>({
+      query: (queryParams) => ({
+        url: `/employees`,
+        params: cleanEmptyParams(queryParams),
+      }),
+      providesTags: (result) => ["Emplolyees"],
+    }),
+    deleteEmployee: build.mutation<{ success: boolean }, string>({
       query: (id) => ({
         url: `/employees/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Emplolyees"],
     }),
-    addEmployee: build.mutation<ListResponse, EmployeeModel>({
+    addEmployee: build.mutation<EmployeeModel, EmployeeModel>({
       query: (user) => ({
         url: `/employees`,
         method: "POST",
@@ -53,7 +38,7 @@ export const EmployeeService = createApi({
       }),
       invalidatesTags: ["Emplolyees"],
     }),
-    updateEmployee: build.mutation<ListResponse, EmployeeModel>({
+    updateEmployee: build.mutation<EmployeeModel, EmployeeModel>({
       query: (user) => ({
         url: `/employees/${user._id}`,
         method: "PATCH",

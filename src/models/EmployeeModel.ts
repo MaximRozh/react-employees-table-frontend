@@ -7,3 +7,10 @@ export interface EmployeeModel {
   _id: string;
   fullName?: string;
 }
+
+export interface ListResponse {
+  currentPage: number;
+  numberOfPages: number;
+  total: number;
+  employees: EmployeeModel[];
+}
