@@ -1,19 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import { EmployeeModel, ListResponse } from "../models/EmployeeModel";
 import { cleanEmptyParams, EmployeesRequestParams } from "../utils/mapParams";
+import BaseUrl from "../api/Axios";
 
 export const EmployeeService = createApi({
   reducerPath: "EmplolyeeAPI",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://stellar-soft-employees.herokuapp.com",
-    prepareHeaders: (headers) => {
-      const token = window.localStorage.getItem("token") || "";
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: BaseUrl,
   tagTypes: ["Emplolyees"],
   endpoints: (build) => ({
     getEmployees: build.query<ListResponse, EmployeesRequestParams>({
@@ -34,7 +26,7 @@ export const EmployeeService = createApi({
       query: (user) => ({
         url: `/employees`,
         method: "POST",
-        body: user,
+        data: user,
       }),
       invalidatesTags: ["Emplolyees"],
     }),
@@ -42,7 +34,7 @@ export const EmployeeService = createApi({
       query: (user) => ({
         url: `/employees/${user._id}`,
         method: "PATCH",
-        body: user,
+        data: user,
       }),
       invalidatesTags: ["Emplolyees"],
     }),

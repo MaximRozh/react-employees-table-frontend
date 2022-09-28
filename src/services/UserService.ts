@@ -1,28 +1,27 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import {
   LoginUserType,
   UserModel,
   UserSingResponseModel,
 } from "../models/UserModel";
+import BaseUrl from "../api/Axios";
 
 export const UserService = createApi({
   reducerPath: "UserApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://stellar-soft-employees.herokuapp.com/auth",
-  }),
+  baseQuery: BaseUrl,
   endpoints: (build) => ({
     login: build.mutation<UserSingResponseModel, LoginUserType>({
       query: (userCredentials) => ({
-        url: `/login`,
+        url: `/auth/login`,
         method: "POST",
-        body: userCredentials,
+        data: userCredentials,
       }),
     }),
     registration: build.mutation<UserSingResponseModel, UserModel>({
       query: (userCredentials) => ({
-        url: "/register",
+        url: "/auth/register",
         method: "POST",
-        body: userCredentials,
+        data: userCredentials,
       }),
     }),
   }),

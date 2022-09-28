@@ -15,7 +15,7 @@ const Registration = () => {
     const { data: userInfo } = (await registration(userData)) as {
       data: UserSingResponseModel;
     };
-    if ("token" in userInfo) {
+    if (userInfo && "token" in userInfo) {
       window.localStorage.setItem("token", userInfo.token);
     }
   };

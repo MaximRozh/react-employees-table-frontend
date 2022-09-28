@@ -16,7 +16,7 @@ const Login = () => {
       data: UserSingResponseModel;
     };
 
-    if ("token" in userInfo) {
+    if (userInfo && "token" in userInfo) {
       dispatch(setUserInfo(userInfo));
       window.localStorage.setItem("token", userInfo.token);
     }
