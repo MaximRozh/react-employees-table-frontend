@@ -1,17 +1,18 @@
 import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import { EmployeeModel, ListResponse } from "../models/EmployeeModel";
 import { cleanEmptyParams, EmployeesRequestParams } from "../utils/mapParams";
-import BaseUrl from "../api/Axios";
+import fetchBaseUrl from "../api/Axios";
 
 export const EmployeeService = createApi({
   reducerPath: "EmplolyeeAPI",
-  baseQuery: BaseUrl,
+  baseQuery: fetchBaseUrl,
   tagTypes: ["Emplolyees"],
   endpoints: (build) => ({
     getEmployees: build.query<ListResponse, EmployeesRequestParams>({
       query: (queryParams) => ({
         url: `/employees`,
         params: cleanEmptyParams(queryParams),
+        method: "GET",
       }),
       providesTags: (result) => ["Emplolyees"],
     }),

@@ -4,11 +4,11 @@ import {
   UserModel,
   UserSingResponseModel,
 } from "../models/UserModel";
-import BaseUrl from "../api/Axios";
+import fetchBaseUrl from "../api/Axios";
 
 export const UserService = createApi({
   reducerPath: "UserApi",
-  baseQuery: BaseUrl,
+  baseQuery: fetchBaseUrl,
   endpoints: (build) => ({
     login: build.mutation<UserSingResponseModel, LoginUserType>({
       query: (userCredentials) => ({

@@ -12,6 +12,7 @@ interface SingUpFormProps {
 const SignInForm: React.FC<SingUpFormProps> = ({ onSubmit }) => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const handleShowPassword = () => setShowPassword((prev) => !prev);
+
   const {
     register,
     handleSubmit,

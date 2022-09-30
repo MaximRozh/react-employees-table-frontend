@@ -16,6 +16,9 @@ import { EmployeeService } from "../services/EmployeeService";
 const defaultEdit = {
   isEdit: false,
   selectedUser: undefined,
+} as {
+  isEdit: boolean;
+  selectedUser: EmployeeModel | undefined;
 };
 
 const DashboardTable = () => {
@@ -23,10 +26,7 @@ const DashboardTable = () => {
   const debouncedValue = useDebounce<string>(searched.trim(), 300);
 
   const [openModal, setOpenModal] = React.useState(false);
-  const [editMode, setEditMode] = React.useState<{
-    isEdit: boolean;
-    selectedUser: EmployeeModel | undefined;
-  }>(defaultEdit);
+  const [editMode, setEditMode] = React.useState(defaultEdit);
 
   const { order, orderBy, handleRequestSort } = useSortTable();
   const { page, rowsPerPage, handleChangeRowsPerPage, onPageChange } =
