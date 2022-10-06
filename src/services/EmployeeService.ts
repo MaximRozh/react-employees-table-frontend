@@ -14,7 +14,7 @@ export const EmployeeService = createApi({
         params: cleanEmptyParams(queryParams),
         method: "GET",
       }),
-      providesTags: (result) => ["Emplolyees"],
+      providesTags: ["Emplolyees"],
     }),
     deleteEmployee: build.mutation<{ success: boolean }, string>({
       query: (id) => ({

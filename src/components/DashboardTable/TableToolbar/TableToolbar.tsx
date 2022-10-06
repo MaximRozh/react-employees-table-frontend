@@ -60,4 +60,4 @@ const TableToolbar: React.FC<TableToolbarProp> = ({
     </Box>
   );
 };
-export default TableToolbar;
+export default React.memo(TableToolbar);
