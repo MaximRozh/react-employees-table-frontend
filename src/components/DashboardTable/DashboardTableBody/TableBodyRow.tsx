@@ -11,7 +11,7 @@ interface DashboardTableBodyRowProps {
   columns: readonly TableColumn[];
   index: number;
   handleDelete: (id: string) => void;
-  handleEdit: (value: EmployeeModel | any) => void;
+  handleEdit: (employee: EmployeeModel) => void;
   setConfirmDialog: (value: ConfirmDialogType) => void;
 }
 
@@ -25,15 +25,23 @@ const TableBodyRow: React.FC<DashboardTableBodyRowProps & EmployeeModel> = ({
   birthYear,
   position,
   salary,
+  lastName,
+  firstName,
   _id,
 }) => {
-  const employee = {
+  const employee: EmployeeModel = {
     fullName,
     birthYear,
     position,
     salary,
-  } as Partial<EmployeeModel>;
-  console.log("reeender");
+    lastName,
+    firstName,
+    _id,
+  };
+
+  const editHandler = () => {
+    handleEdit(employee);
+  };
   return (
     <TableRow hover tabIndex={-1} key={_id}>
       <TableCell align="center">{index + 1}</TableCell>
@@ -42,7 +50,7 @@ const TableBodyRow: React.FC<DashboardTableBodyRowProps & EmployeeModel> = ({
         return <TableBodyCell key={column.id} {...column} value={value} />;
       })}
       <TableBodyRowAction
-        handleEdit={handleEdit}
+        handleEdit={editHandler}
         handleDelete={handleDelete}
         setConfirmDialog={setConfirmDialog}
         employeeId={_id}

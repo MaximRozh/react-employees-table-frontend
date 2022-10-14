@@ -15,10 +15,10 @@ interface UserModalProps {
   onClose: () => void;
   submitHandler: (user: EmployeeModel) => void;
   title: string;
-  userInfo: EmployeeModel | undefined;
+  employeeInfo: EmployeeModel | undefined;
 }
 
-const defaultValues = {
+const defaultEmployeeValues = {
   firstName: "",
   lastName: "",
   birthYear: "",
@@ -30,7 +30,7 @@ const UserTableFormModal: React.FC<UserModalProps> = ({
   onClose,
   submitHandler,
   title,
-  userInfo = defaultValues,
+  employeeInfo = defaultEmployeeValues,
 }) => {
   const {
     register,
@@ -40,7 +40,7 @@ const UserTableFormModal: React.FC<UserModalProps> = ({
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: userInfo,
+    defaultValues: employeeInfo,
   });
   const onSubmit = (
     data: EmployeeModel,

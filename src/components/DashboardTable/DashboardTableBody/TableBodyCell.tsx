@@ -1,6 +1,6 @@
 import React from "react";
 import { TableColumn } from "../../../types/TableColumn";
-import { StyledTableCell } from "../style";
+import { StyledTableCell } from "./style";
 
 const TableBodyCell: React.FC<Omit<TableColumn, "id"> & { value: string }> = ({
   format,

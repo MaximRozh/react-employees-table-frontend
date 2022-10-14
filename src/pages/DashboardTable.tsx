@@ -21,14 +21,14 @@ import { EmployeeService } from "../services/EmployeeService";
 
 const defaultEdit = {
   isEdit: false,
-  selectedUser: undefined,
+  selectedEmployee: undefined,
 } as {
   isEdit: boolean;
-  selectedUser: EmployeeModel | undefined;
+  selectedEmployee: EmployeeModel | undefined;
 };
 
 const DashboardTable = () => {
-  const [openModal, setOpenModal] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState<boolean>(false);
   const [editMode, setEditMode] = React.useState(defaultEdit);
 
   const { searched, handleChangeSearch, clearSearchValue } = useSearch();
@@ -79,15 +79,9 @@ const DashboardTable = () => {
     [addEmployee, editMode.isEdit, updateEmployee]
   );
 
-  const handleEdit = React.useCallback(
-    (employeeId: string) => {
-      const selectedEmployee = employees.find(
-        (employee) => employee._id === employeeId
-      );
-      setEditMode({ isEdit: true, selectedUser: selectedEmployee });
-    },
-    [employees]
-  );
+  const handleEdit = React.useCallback((employee: EmployeeModel) => {
+    setEditMode({ isEdit: true, selectedEmployee: employee });
+  }, []);
 
   const handleCloseModal = React.useCallback(() => {
     editMode.isEdit ? setEditMode(defaultEdit) : setOpenModal(false);
@@ -135,7 +129,7 @@ const DashboardTable = () => {
           title={editMode.isEdit ? "Edit Employee info" : "New Employee"}
           onClose={handleCloseModal}
           submitHandler={handleSubmit}
-          userInfo={editMode?.selectedUser}
+          employeeInfo={editMode?.selectedEmployee}
         />
       ) : null}
       {renderConfirmDialog()}

@@ -1,7 +1,7 @@
 import React from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { StyledHeaderTableCell } from "../style";
+import { StyledHeaderTableCell } from "./style";
 import { TableColumn } from "../../../types/TableColumn";
 import TableHeaderCell from "./TableHeaderCell";
 

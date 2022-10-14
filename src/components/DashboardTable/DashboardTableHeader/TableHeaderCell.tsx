@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, TableSortLabel } from "@mui/material";
-import { StyledHeaderTableCell } from "../style";
+import { StyledHeaderTableCell } from "./style";
 import { visuallyHidden } from "@mui/utils";
 import { TableColumn } from "../../../types/TableColumn";
 

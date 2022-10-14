@@ -9,6 +9,7 @@ import {
   SearchIconWrapper,
   StyledInputBase,
   ClearIconWrapper,
+  BoxWrapper,
 } from "./style";
 
 interface TableToolbarProp {
@@ -27,13 +28,7 @@ const TableToolbar: React.FC<TableToolbarProp> = ({
   return (
     <Box sx={{ flexGrow: 1, background: "#078E96" }}>
       <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
+        <BoxWrapper>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -55,7 +50,7 @@ const TableToolbar: React.FC<TableToolbarProp> = ({
           <MyButton onClick={addNewUser} variant="contained">
             Add new
           </MyButton>
-        </Box>
+        </BoxWrapper>
       </Toolbar>
     </Box>
   );

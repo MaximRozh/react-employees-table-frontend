@@ -10,7 +10,7 @@ interface DashboardTableBodyProps {
   userRowsPerPage: EmployeeModel[];
   columns: readonly TableColumn[];
   handleDelete: (id: string) => void;
-  handleEdit: (id: string) => void;
+  handleEdit: (employee: EmployeeModel) => void;
 }
 
 const DashboardTableBody: React.FC<DashboardTableBodyProps> = ({

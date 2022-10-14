@@ -1,15 +1,14 @@
 import React from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { StyledTableCell } from "../style";
-import { EmployeeModel } from "../../../models/EmployeeModel";
+import { StyledTableCell } from "./style";
 import { ConfirmDialogType } from "../../../types/ConfirmDialogType";
 
 interface TableBodyRowActionProps {
   employeeId: string;
   employeeName?: string;
   handleDelete: (id: string) => void;
-  handleEdit: (value: EmployeeModel | any) => void;
+  handleEdit: () => void;
   setConfirmDialog: (value: ConfirmDialogType) => void;
 }
 
@@ -24,7 +23,7 @@ const TableBodyRowAction: React.FC<TableBodyRowActionProps> = ({
     <StyledTableCell align="center">
       <EditIcon
         sx={{ marginRight: "10px", cursor: "pointer" }}
-        onClick={() => handleEdit(employeeId)}
+        onClick={handleEdit}
       />
       <DeleteIcon
         sx={{ cursor: "pointer" }}
