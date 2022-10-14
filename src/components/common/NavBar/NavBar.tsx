@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/storeHooks";
 import { clearUserData } from "../../../store/auth/authSlilce";
 import { useConfirmDialog } from "../../../hooks";
 import { MyButton } from "../../UI";
+import { Box } from "@mui/material";
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -24,8 +25,8 @@ const NavBar = () => {
   };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         backgroundColor: "#fff",
         padding: "10px 0",
         borderBottom: "1px solid #e0e0e0",
@@ -33,21 +34,26 @@ const NavBar = () => {
       }}
     >
       <Container maxWidth="xl">
-        <div
-          style={{
+        <Box
+          sx={{
             display: "flex",
             justifyContent: "space-between",
+            flexWrap: "wrap",
           }}
         >
           <Link to="/">
             <div>Home</div>
           </Link>
-          <div>
+          <Box>
             {isAuth ? (
-              <div
-                style={{ display: "flex", gap: "15px", alignItems: "center" }}
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "15px",
+                  alignItems: "center",
+                }}
               >
-                <div>{userInfo?.fullName}</div>
+                <Box>{userInfo?.fullName}</Box>
                 <MyButton
                   onClick={onClickLogout}
                   variant="contained"
@@ -55,7 +61,7 @@ const NavBar = () => {
                 >
                   Log out
                 </MyButton>
-              </div>
+              </Box>
             ) : (
               <>
                 <Link to="/sign-in">
@@ -70,11 +76,11 @@ const NavBar = () => {
                 </Link>
               </>
             )}
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Container>
       {renderConfirmDialog()}
-    </div>
+    </Box>
   );
 };
 

@@ -1,32 +1,38 @@
 import * as React from "react";
-import { Paper, Table, TableContainer, TablePagination } from "@mui/material";
+import { Paper, Table, TableContainer } from "@mui/material";
 import { EmployeeModel } from "../models/EmployeeModel";
-import { useSortTable, usePagination, useConfirmDialog } from "../hooks";
+import {
+  useSortTable,
+  usePagination,
+  useConfirmDialog,
+  useDebounce,
+  useSearch,
+} from "../hooks";
 import {
   COLUMNS,
+  TableToolbar,
   DashboardTableBody,
   DashboardTableHeader,
-  TableToolbar,
+  DashboardPagination,
 } from "../components/DashboardTable";
 import { UserTableFormModal } from "../components/modals";
 import TableSkeleton from "../components/DashboardTable/TableSkeleton";
-import useDebounce from "../hooks/useDebaunce";
 import { EmployeeService } from "../services/EmployeeService";
 
 const defaultEdit = {
   isEdit: false,
-  selectedUser: undefined,
+  selectedEmployee: undefined,
 } as {
   isEdit: boolean;
-  selectedUser: EmployeeModel | undefined;
+  selectedEmployee: EmployeeModel | undefined;
 };
 
 const DashboardTable = () => {
-  const [searched, setSearched] = React.useState("");
-  const debouncedValue = useDebounce<string>(searched.trim(), 300);
-
-  const [openModal, setOpenModal] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState<boolean>(false);
   const [editMode, setEditMode] = React.useState(defaultEdit);
+
+  const { searched, handleChangeSearch, clearSearchValue } = useSearch();
+  const debouncedSearchValue = useDebounce<string>(searched.trim(), 300);
 
   const { order, orderBy, handleRequestSort } = useSortTable();
   const { page, rowsPerPage, handleChangeRowsPerPage, onPageChange } =
@@ -37,52 +43,61 @@ const DashboardTable = () => {
   const { data, isLoading } = EmployeeService.useGetEmployeesQuery({
     page,
     perPage: rowsPerPage,
-    search: debouncedValue,
+    search: debouncedSearchValue,
     order,
     sortBy: orderBy,
   });
-  const employees = data?.employees || [];
+
+  const employees = React.useMemo(
+    () => data?.employees || [],
+    [data?.employees]
+  );
   const total = data?.total || 0;
 
   const [deleteEmployee] = EmployeeService.useDeleteEmployeeMutation();
   const [addEmployee] = EmployeeService.useAddEmployeeMutation();
   const [updateEmployee] = EmployeeService.useUpdateEmployeeMutation();
 
-  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = e.target.value;
-    setSearched(searchValue);
-  };
+  const handleDelete = React.useCallback(
+    (id: string) => {
+      deleteEmployee(id);
+      closeConfirmDialog();
+    },
+    [closeConfirmDialog, deleteEmployee]
+  );
 
-  const handleDelete = (id: string) => {
-    deleteEmployee(id);
-    closeConfirmDialog();
-  };
+  const handleSubmit = React.useCallback(
+    (user: EmployeeModel) => {
+      if (editMode.isEdit) {
+        updateEmployee(user);
+        setEditMode(defaultEdit);
+      } else {
+        addEmployee(user);
+        setOpenModal(false);
+      }
+    },
+    [addEmployee, editMode.isEdit, updateEmployee]
+  );
 
-  const handleSubmit = (user: EmployeeModel) => {
-    if (editMode.isEdit) {
-      updateEmployee(user);
-      setEditMode(defaultEdit);
-    } else {
-      addEmployee(user);
-      setOpenModal(false);
-    }
-  };
+  const handleEdit = React.useCallback((employee: EmployeeModel) => {
+    setEditMode({ isEdit: true, selectedEmployee: employee });
+  }, []);
 
-  const handleEdit = (user: EmployeeModel) => {
-    setEditMode({ isEdit: true, selectedUser: user });
-  };
+  const handleCloseModal = React.useCallback(() => {
+    editMode.isEdit ? setEditMode(defaultEdit) : setOpenModal(false);
+  }, [editMode.isEdit]);
 
-  const editClose = () => {
-    setEditMode(defaultEdit);
-  };
+  const handleOpenModal = React.useCallback(() => {
+    setOpenModal(true);
+  }, []);
 
   return (
     <Paper sx={{ width: "100%" }}>
       <TableToolbar
         onChange={handleChangeSearch}
         value={searched}
-        clearValue={() => setSearched("")}
-        addNewUser={() => setOpenModal(true)}
+        clearValue={clearSearchValue}
+        addNewUser={handleOpenModal}
       />
       <TableContainer sx={{ maxHeight: "540px" }}>
         <Table stickyHeader aria-label="sticky table">
@@ -102,22 +117,19 @@ const DashboardTable = () => {
           <TableSkeleton isLoading={isLoading} />
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100]}
-        component="div"
-        count={total}
+      <DashboardPagination
+        total={total}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={onPageChange}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-
       {openModal || editMode.isEdit ? (
         <UserTableFormModal
           title={editMode.isEdit ? "Edit Employee info" : "New Employee"}
-          onClose={() => (editMode.isEdit ? editClose() : setOpenModal(false))}
+          onClose={handleCloseModal}
           submitHandler={handleSubmit}
-          userInfo={editMode?.selectedUser}
+          employeeInfo={editMode?.selectedEmployee}
         />
       ) : null}
       {renderConfirmDialog()}

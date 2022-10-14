@@ -1,5 +1,5 @@
 import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
+import { Box, InputBase } from "@mui/material";
 
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -9,7 +9,6 @@ export const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  //   marginLeft: 0,
   width: "auto",
   display: "flex",
   justifyContent: "space-beetween",
@@ -37,12 +36,23 @@ export const ClearIconWrapper = styled("div")(({ theme }) => ({
   top: 0,
 }));
 
+export const BoxWrapper = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "space-between",
+  width: "100%",
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+    gap: "10px",
+    padding: "15px 0",
+  },
+}));
+
 export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
+  width: "100%",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     transition: theme.transitions.create("width"),
-    width: "100%",
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
       "&:focus": {

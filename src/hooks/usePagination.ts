@@ -4,14 +4,18 @@ const usePagination = () => {
   const [page, setPage] = React.useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  const handleChangeRowsPerPage = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setRowsPerPage(+event.target.value);
+      setPage(0);
+    },
+    []
+  );
 
-  const onPageChange = (e: any, newPage: number) => setPage(newPage);
+  const onPageChange = React.useCallback((e: any, newPage: number) => {
+    setPage(newPage);
+  }, []);
+
   return {
     page,
     rowsPerPage,

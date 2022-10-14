@@ -6,6 +6,7 @@ import AuthRoute from "./components/AuthRoute";
 import { useAppDispatch } from "./hooks/storeHooks";
 import { clearUserData } from "./store/auth/authSlilce";
 import { isValidToken } from "./utils/isValidToken";
+import { Container } from "@mui/material";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      <main>
+      <Container maxWidth="xl">
         <Routes>
           <Route path="/" element={<Navigate to="/employees" />} />
           <Route path="/employees" element={<DashboardTable />} />
@@ -43,7 +44,7 @@ function App() {
             }
           />
         </Routes>
-      </main>
+      </Container>
     </div>
   );
 }

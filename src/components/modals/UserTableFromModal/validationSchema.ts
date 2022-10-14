@@ -2,6 +2,8 @@ import * as Yup from "yup";
 import moment from "moment";
 
 const stringRegexp = /^[A-Za-z ]*$/;
+const positionRegexp = /^[A-Za-z /.,]*$/;
+
 export const validationSchema = Yup.object().shape({
   firstName: Yup.string()
     .required("First name is required")
@@ -13,7 +15,10 @@ export const validationSchema = Yup.object().shape({
     .min(3, "Must be more than 3 characters"),
   position: Yup.string()
     .required("Position is required")
-    .matches(stringRegexp, "Only English alphabets are allowed for this field")
+    .matches(
+      positionRegexp,
+      "Only English alphabets are allowed for this field"
+    )
     .min(3, "Must be more than 3 characters"),
   salary: Yup.number()
     .typeError("Must be a number")
